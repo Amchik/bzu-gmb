@@ -50,6 +50,10 @@ inxistatus=`dpkg -s python-tk | grep installed`;echo "python-tk" $inxistatus
 dpkg -s xosd-bin | grep installed > /dev/null || echo 'no install xosd-bin :(' | echo "$pass_user" | sudo -S apt install -f -y xosd-bin
 inxistatus=`dpkg -s xosd-bin | grep installed`;echo "xosd-bin" $inxistatus
 
+#проверяем установлена утилита aptitude - она необходима для работы многих программ
+dpkg -s aptitude | grep installed > /dev/null || echo 'no install aptitude :(' | echo "$pass_user" | sudo -S apt install -f -y aptitude
+inxistatus=`dpkg -s aptitude | grep installed`;echo "aptitude" $inxistatus
+
 # проверка что за система запустила скрипт
 linuxos=`grep '^PRETTY_NAME' /etc/os-release`
 
@@ -79,15 +83,16 @@ i=$(($i + 1))
 done
 
 #Топорная заглушка на случай если бета версия Ubuntu
-#echo $linuxos | grep "Ubuntu Focal Fossa" > /dev/null
+#echo $linuxos | grep "Ubuntu 20.04.1 LTS" > /dev/null
 #if [ $? = 0 ];then
-#start0=`echo $start0 | sed 's/Ubuntu Focal Fossa (development branch)/Ubuntu 20.04/g'`
-#export linuxos_version=`echo ${linuxos_version0} | sed 's/Ubuntu Focal Fossa (development branch)/Ubuntu 20.04/g'`
-#linuxos_status="4"
+#start0=`echo $start0 | sed 's/Ubuntu 20.04.1 LTS/Ubuntu 20.04 LTS/g'`
+#export linuxos_version=`echo ${linuxos_version0} | sed 's/Ubuntu 20.04.1 LTS/Ubuntu 20.04 LTS/g'`
+#inuxos_status="4"
 #fi
 #echo "$start0"
 #sleep 60
 #exit 0
+
 #заменяем пробелы в команде запуска скрипта на знак -, что бы не замарачиваться с жалобой системы на пробелы в имени файла
 start=`echo $start0 | sed 's/ /-/2g'`
 #echo "start:" $start
